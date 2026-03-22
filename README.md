@@ -34,6 +34,11 @@ Defines how Agent should call the proxy API:
 
 ### 1. Install Extension
 
+**For Users** (recommended):
+1. Download the `.vsix` file from [GitHub Releases](https://github.com/ityyq777/vscode-debugger/releases)
+2. Double-click the `.vsix` file to install
+
+**For Developers**:
 ```bash
 cd vscode-debugger-proxy
 npm install
@@ -41,7 +46,7 @@ npm run compile
 # Press F5 in VSCode to debug the extension
 ```
 
-Or package and install locally:
+Or package manually:
 ```bash
 vsce package
 code --install-extension vscode-debugger-proxy-0.1.0.vsix

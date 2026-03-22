@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "publisher": "yangyuqi",
   "description": "Enable Claude Code to control VSCode debugger via synchronous blocking HTTP API",
-  "repository": "https://github.com/yangyuqi/vscode-debugger",
+  "repository": "https://github.com/ityyq777/vscode-debugger",
   "engines": {
     "vscode": "^1.75.0"
   },

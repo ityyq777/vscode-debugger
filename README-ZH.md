@@ -34,6 +34,11 @@
 
 ### 1. 安装扩展
 
+**普通用户**（推荐）：
+1. 从 [GitHub Releases](https://github.com/ityyq777/vscode-debugger/releases) 下载 `.vsix` 文件
+2. 双击 `.vsix` 文件即可安装
+
+**开发者**：
 ```bash
 cd vscode-debugger-proxy
 npm install
@@ -41,7 +46,7 @@ npm run compile
 # 在 VSCode 中按 F5 调试扩展
 ```
 
-或打包后本地安装：
+或手动打包安装：
 ```bash
 vsce package
 code --install-extension vscode-debugger-proxy-0.1.0.vsix
