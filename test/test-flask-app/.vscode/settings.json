@@ -1,0 +1,5 @@
+{
+  "debuggerProxy.port": 4711,
+  "debuggerProxy.timeout": 30000,
+  "debuggerProxy.autoStart": true
+}
