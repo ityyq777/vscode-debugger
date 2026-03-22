@@ -39,7 +39,17 @@
 **普通用户**（推荐）：
 
 1. 从 [GitHub Releases](https://github.com/ityyq777/vscode-debugger/releases) 下载 `.vsix` 文件
-2. 双击 `.vsix` 文件即可安装
+2. 通过命令行安装：
+
+```bash
+code --install-extension vscode-debugger-proxy-0.1.0.vsix
+```
+
+或通过 VSCode 界面安装：
+1. 按 `Ctrl+Shift+X` 打开扩展面板
+2. 点击右上角 `...` 更多按钮
+3. 选择 "Install from VSIX..."
+4. 选择下载的 `.vsix` 文件
 
 **开发者**：
 

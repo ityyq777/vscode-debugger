@@ -39,7 +39,17 @@ Defines how Agent should call the proxy API:
 **For Users** (recommended):
 
 1. Download the `.vsix` file from [GitHub Releases](https://github.com/ityyq777/vscode-debugger/releases)
-2. Double-click the `.vsix` file to install
+2. Install via command line:
+
+```bash
+code --install-extension vscode-debugger-proxy-0.1.0.vsix
+```
+
+Or install via VSCode UI:
+1. Press `Ctrl+Shift+X` to open Extensions panel
+2. Click the `...` button (top right)
+3. Select "Install from VSIX..."
+4. Choose the downloaded `.vsix` file
 
 **For Developers**:
 
