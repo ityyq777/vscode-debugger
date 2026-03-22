@@ -15,6 +15,7 @@ Enable Claude Code (Agent) to control the VSCode debugger via synchronous blocki
 Located in `vscode-debugger-proxy/`.
 
 Provides HTTP API for debugger control:
+
 - Start/stop debug sessions
 - Set/manage breakpoints
 - Block on `/wait` until breakpoint hit
@@ -27,6 +28,7 @@ Provides HTTP API for debugger control:
 Located in `agent/skills/vscode-debugger/`.
 
 Defines how Agent should call the proxy API:
+
 - `SKILL.md` - English version
 - `SKILL-ZH.md` - Chinese version
 
@@ -35,10 +37,12 @@ Defines how Agent should call the proxy API:
 ### 1. Install Extension
 
 **For Users** (recommended):
+
 1. Download the `.vsix` file from [GitHub Releases](https://github.com/ityyq777/vscode-debugger/releases)
 2. Double-click the `.vsix` file to install
 
 **For Developers**:
+
 ```bash
 cd vscode-debugger-proxy
 npm install
@@ -47,6 +51,7 @@ npm run compile
 ```
 
 Or package manually:
+
 ```bash
 vsce package
 code --install-extension vscode-debugger-proxy-0.1.0.vsix
@@ -56,43 +61,56 @@ code --install-extension vscode-debugger-proxy-0.1.0.vsix
 
 Click the `vdp ×` button in VSCode status bar, or set `debuggerProxy.autoStart: true` in settings.
 
-### 3. Agent Connects
+### 3. Configure launch.json
 
-```bash
-# Read port file
-PORT=$(cat .vscode/debug-proxy.port)
+Ensure `.vscode/launch.json` has your debug configuration:
 
-# Check health
-curl http://localhost:$PORT/health
+```json
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: Flask",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/app.py"
+    }
+  ]
+}
 ```
+
+### 4. Configure Agent Skill
+
+See dir (docs/agents-use) for details.
 
 ## API Overview
 
-| Endpoint | Method | Blocking | Description |
-|----------|--------|----------|-------------|
-| `/health` | GET | No | Health check |
-| `/status` | GET | No | Get debugger status |
-| `/launch` | POST | **Yes** | Start debug session |
-| `/wait` | POST | **Yes** | Block until breakpoint |
-| `/control` | POST | **Yes** | Step/continue |
-| `/breakpoints` | POST | No | Set breakpoints |
-| `/variables` | POST | No | Get variables |
-| `/evaluate` | POST | No | Evaluate expression |
-| `/stacktrace` | GET | No | Get stack trace |
+| Endpoint       | Method | Blocking | Description            |
+| ---------------- | -------- | ---------- | ------------------------ |
+| `/health`      | GET    | No       | Health check           |
+| `/status`      | GET    | No       | Get debugger status    |
+| `/launch`      | POST   | **Yes**  | Start debug session    |
+| `/wait`        | POST   | **Yes**  | Block until breakpoint |
+| `/control`     | POST   | **Yes**  | Step/continue          |
+| `/breakpoints` | POST   | No       | Set breakpoints        |
+| `/variables`   | POST   | No       | Get variables          |
+| `/evaluate`    | POST   | No       | Evaluate expression    |
+| `/stacktrace`  | GET    | No       | Get stack trace        |
 
 See [API documentation](docs/vscode-debugger-proxy-API.md) for details.
 
 ## Documentation
 
-| Category | Document | Description |
-|----------|----------|-------------|
-| User | [Configuration Guide](docs/vscode-debugger-proxy-配置.md) | Settings, status bar |
-| | [Debug Guide](docs/vscode-debugger-proxy-调试.md) | curl/PowerShell examples |
-| Developer | [API Docs](docs/vscode-debugger-proxy-API.md) | All API endpoints |
-| | [Architecture](docs/架构文档.md) | System design, state machine |
-| | [Development](docs/开发方案.md) | Design patterns, code samples |
-| Agent | [SKILL.md](agent/skills/vscode-debugger/SKILL.md) | Agent skill (EN) |
-| | [SKILL-ZH.md](agent/skills/vscode-debugger/SKILL-ZH.md) | Agent skill (ZH) |
+| Category  | Document                                                                                     | Description                   |
+| ----------- | ---------------------------------------------------------------------------------------------- | ------------------------------- |
+| User      | [Configuration Guide](docs/vscode-debugger-proxy-配置.md)                                    | Settings, status bar          |
+|           | [Debug Guide](docs/vscode-debugger-proxy-调试.md)                                            | curl/PowerShell examples      |
+|           | [Agent Skill Configure](docs/agents-use/**.md) | How to configure Agent skill  |
+| Developer | [API Docs](docs/vscode-debugger-proxy-API.md)                                                | All API endpoints             |
+|           | [Architecture](docs/架构文档.md)                                                             | System design, state machine  |
+|           | [Development](docs/开发方案.md)                                                              | Design patterns, code samples |
+| Agent     | [SKILL.md](agent/skills/vscode-debugger/SKILL.md)                                            | Agent skill (EN)              |
+|           | [SKILL-ZH.md](agent/skills/vscode-debugger/SKILL-ZH.md)                                      | Agent skill (ZH)              |
 
 ## Project Structure
 
@@ -109,3 +127,4 @@ vscode-debugger/
 └── test/
     └── test-flask-app/             # Test Flask app
 ```
+

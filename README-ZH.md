@@ -15,6 +15,7 @@
 位于 `vscode-debugger-proxy/`。
 
 提供调试器控制的 HTTP API：
+
 - 启动/停止调试会话
 - 设置/管理断点
 - `/wait` 阻塞等待断点命中
@@ -27,6 +28,7 @@
 位于 `agent/skills/vscode-debugger/`。
 
 定义 Agent 如何调用代理 API：
+
 - `SKILL.md` - 英文版
 - `SKILL-ZH.md` - 中文版
 
@@ -35,10 +37,12 @@
 ### 1. 安装扩展
 
 **普通用户**（推荐）：
+
 1. 从 [GitHub Releases](https://github.com/ityyq777/vscode-debugger/releases) 下载 `.vsix` 文件
 2. 双击 `.vsix` 文件即可安装
 
 **开发者**：
+
 ```bash
 cd vscode-debugger-proxy
 npm install
@@ -47,6 +51,7 @@ npm run compile
 ```
 
 或手动打包安装：
+
 ```bash
 vsce package
 code --install-extension vscode-debugger-proxy-0.1.0.vsix
@@ -56,43 +61,58 @@ code --install-extension vscode-debugger-proxy-0.1.0.vsix
 
 点击 VSCode 底部状态栏左侧的 `vdp ×` 按钮，或在设置中启用 `debuggerProxy.autoStart: true`。
 
-### 3. Agent 连接
+### 3. 配置 launch.json
 
-```bash
-# 读取端口文件
-PORT=$(cat .vscode/debug-proxy.port)
+确保 `.vscode/launch.json` 中有调试配置：
 
-# 健康检查
-curl http://localhost:$PORT/health
+```json
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Python: Flask",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "${workspaceFolder}/app.py"
+    }
+  ]
+}
 ```
+
+### 4. 配置 Agent Skill
+
+详见 [目录](docs/agents-use/)。
 
 ## API 概览
 
-| 接口 | 方法 | 阻塞 | 说明 |
-|------|------|------|------|
-| `/health` | GET | 否 | 健康检查 |
-| `/status` | GET | 否 | 获取调试器状态 |
-| `/launch` | POST | **是** | 启动调试会话 |
-| `/wait` | POST | **是** | 阻塞等待断点 |
-| `/control` | POST | **是** | 单步/继续 |
-| `/breakpoints` | POST | 否 | 设置断点 |
-| `/variables` | POST | 否 | 获取变量 |
-| `/evaluate` | POST | 否 | 执行表达式 |
-| `/stacktrace` | GET | 否 | 获取栈追踪 |
+
+| 接口           | 方法 | 阻塞   | 说明           |
+| ---------------- | ------ | -------- | ---------------- |
+| `/health`      | GET  | 否     | 健康检查       |
+| `/status`      | GET  | 否     | 获取调试器状态 |
+| `/launch`      | POST | **是** | 启动调试会话   |
+| `/wait`        | POST | **是** | 阻塞等待断点   |
+| `/control`     | POST | **是** | 单步/继续      |
+| `/breakpoints` | POST | 否     | 设置断点       |
+| `/variables`   | POST | 否     | 获取变量       |
+| `/evaluate`    | POST | 否     | 执行表达式     |
+| `/stacktrace`  | GET  | 否     | 获取栈追踪     |
 
 详见 [API 文档](docs/vscode-debugger-proxy-API.md)。
 
 ## 文档目录
 
-| 类别 | 文档 | 说明 |
-|------|------|------|
-| 用户 | [配置指南](docs/vscode-debugger-proxy-配置.md) | 配置项、状态栏 |
-| | [调试指南](docs/vscode-debugger-proxy-调试.md) | curl/PowerShell 示例 |
-| 开发者 | [API 文档](docs/vscode-debugger-proxy-API.md) | 所有 API 接口 |
-| | [架构文档](docs/架构文档.md) | 系统架构、状态机 |
-| | [开发方案](docs/开发方案.md) | 设计模式、代码示例 |
-| Agent | [SKILL.md](agent/skills/vscode-debugger/SKILL.md) | Skill 英文版 |
-| | [SKILL-ZH.md](agent/skills/vscode-debugger/SKILL-ZH.md) | Skill 中文版 |
+
+| 类别   | 文档                                                    | 说明                 |
+| -------- | --------------------------------------------------------- | ---------------------- |
+| 用户   | [配置指南](docs/vscode-debugger-proxy-配置.md)          | 配置项、状态栏       |
+|        | [调试指南](docs/vscode-debugger-proxy-调试.md)          | curl/PowerShell 示例 |
+|        | [Agent Skill 配置指南](docs/agents-use/**.md) | 如何配置 Agent Skill |
+| 开发者 | [API 文档](docs/vscode-debugger-proxy-API.md)           | 所有 API 接口        |
+|        | [架构文档](docs/架构文档.md)                            | 系统架构、状态机     |
+|        | [开发方案](docs/开发方案.md)                            | 设计模式、代码示例   |
+| Agent  | [SKILL.md](agent/skills/vscode-debugger/SKILL.md)       | Skill 英文版         |
+|        | [SKILL-ZH.md](agent/skills/vscode-debugger/SKILL-ZH.md) | Skill 中文版         |
 
 ## 项目结构
 
